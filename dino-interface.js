@@ -1,20 +1,14 @@
-//do dino setup in ajax and es6wpromises
-$(document).ready(function() {
+//do dino setup in ajaxv2 and es6wpromises
+$(document).ready(function(){
   $('#getDinoText').click(function() {
     console.log('yo');
-    $.ajax({
-      url: `http://dinoipsum.herokuapp.com/api?format=json&words=20&paragraphs=2`,
-      type: 'GET',
-      data: {
-        format: 'json'
-      },
-      success: function(response) {
-        $('.showText').text(`The text is ${response}.`)
-      },
-      error: function() {
-        $('.showText').text(`There was an error please try again`)
-      }
+    $.get(`http://dinoipsum.herokuapp.com/api?format=json&words=20&paragraphs=2`).then(function(response){
+      $('.showText').text(`The response is ${response}`);
+      console.log(response);
+    }).fail(function(error){
+      $('.showText').text(`There was an error ${error.responseText}, try again`);
+      console.log(error);
     });
   });
-
+  //flip hashtag aboveS
 });
