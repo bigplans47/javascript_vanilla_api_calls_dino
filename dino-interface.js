@@ -1,14 +1,24 @@
-//do dino setup in ajaxv2 and es6wpromises
-$(document).ready(function(){
+$(document).ready(function() {
   $('#getDinoText').click(function() {
-    console.log('yo');
-    $.get(`http://dinoipsum.herokuapp.com/api?format=json&words=20&paragraphs=2`).then(function(response){
-      $('.showText').text(`The response is ${response}`);
-      console.log(response);
-    }).fail(function(error){
-      $('.showText').text(`There was an error ${error.responseText}, try again`);
-      console.log(error);
+    let promise = new Promise(function(resolve, reject){
+      console.log('yo');
+      let request = new XMLHttpRequest();
+      let url = `http://dinoipsum.herokuapp.com/api?format=json&words=20&paragraphs=2`;
+      request.onload = function() {
+        if (this.status === 200) {
+          resolve(request.response);
+        } else {
+          reject(Error(request.statusText));
+        }
+      }
+      request.open('GET', url, true);
+      request.send();
+    });
+    promise.then(function(response) {
+      body = JSON.parse(response);
+      $('.showText').text(`The answer is ${response}`);
+    }, function(error) {
+      $('.showText').text(`There was an error: ${response}`)
     });
   });
-  //flip hashtag aboveS
 });
